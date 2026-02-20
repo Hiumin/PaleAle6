@@ -51,7 +51,7 @@ micromamba create -n PaleAle6 -f env_PaleAle6.yml
 micromamba activate PaleAle6
 pip install -r env_PaleAle6.txt
 ln -s PaleAle6.sh PaleAle6
-export PATH=$(pwd):$PATH
+export PATH=$PATH:$(pwd)
 PaleAle6 -h
 ```
 
@@ -64,7 +64,7 @@ PaleAle6 -i test/TIGR04045_dealn.FASTA -o solvacc -p TIGR04045 -2 -4 -r
 ## 3. Usage  
 
 ```
-Predicts per-residue relative solvent accessibility from protein sequence.
+Predicts per-residue relative solvent accessibility from protein sequences.
 Returns predicted tendencies in JSON and sequences in FASTA format.
 
 Version: 6.0

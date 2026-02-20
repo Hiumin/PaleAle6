@@ -37,11 +37,12 @@ else:
 
 injson = os.path.abspath(args.injson)
 injson_base = os.path.splitext(injson)[0]
+injson_dir = os.path.dirname(injson)
 
 if args.outprefix is None:
     outprefix = injson_base
 else:
-    outprefix = args.outprefix
+    outprefix = os.path.join(injson_dir, args.outprefix)
 
 if args.outextension is None:
     outextension = default_extension[args.outextension]
