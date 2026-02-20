@@ -5,7 +5,7 @@ This repository is a fork of [PaleAle6.0][paleale6], a program for predicting re
 [paleale6]: https://github.com/WafaAlanazi/PaleAle6  
 
 
-Table of Contents  
+**Table of Contents**  
 
 <!-- Table of Contents GFM -->
 
@@ -31,13 +31,13 @@ New or heavily modified components:
 | Component                      | Purpose                                                     |
 | ------------------------------ | ----------------------------------------------------------- |
 | `PaleAle6.sh`                  | Main wrapper + CLI.                                         |
-| `parse_solvacc_pred.py`        | Parse tendency predictions into FASTA-format sequences.     |
 | `fasta2json.py`                | Convert input fasta into json.                              |
 | `emb_esm3_fasta.py`            | Generate ESM-2 feature embedding.                           |
+| `RSA_*/params/filePath.py`     | Dynamic path finder.                                        |
 | `RSA_*/new_test_ensemble.py`   | Lower-level secondary wrapper for the predictions.          |
 | `RSA_*/utils/ensemble.py`      | RSA prediction script.                                      |
-| `RSA_*/params/filePath.py`     | Dynamic path finder.                                        |
-| `RSA_*/training`               | Pre-trained models. renamed from `output`.                  |
+| `RSA_*/training`               | Pre-trained models. Renamed dir from `output`.              |
+| `parse_solvacc_pred.py`        | Parse tendency predictions into FASTA-format sequences.     |
 | `original`                     | Everything from the original repository.                    |
 
 ## 2. Installation  
@@ -50,12 +50,13 @@ cd PaleAle6
 micromamba create -n PaleAle6 -f env_PaleAle6.yml
 micromamba activate PaleAle6
 pip install -r env_PaleAle6.txt
+chmod +x PaleAle6.sh
 ln -s PaleAle6.sh PaleAle6
 export PATH=$PATH:$(pwd)
 PaleAle6 -h
 ```
 
-Verifying the installation:  
+Verifying the installation by running it on a test sequence:  
 
 ```bash
 PaleAle6 -i test/TIGR04045_dealn.FASTA -o solvacc -p TIGR04045 -2 -4 -r 
@@ -96,3 +97,4 @@ Options:
     -s, --skip          Skip sequence format conversion and embedding generation (if the files already exist).
     --cleanup           Remove intermediate files (JSON sequences, embeddings, etc.)
 ```
+
