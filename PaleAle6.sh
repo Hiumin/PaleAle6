@@ -3,10 +3,12 @@
 
 showhelp () {
     cat <<- '#EOF'
-Predict per-residue solvent accessibility from protein sequence using PaleAle6.0.
-Return predictions in JSON format.
+Predicts per-residue relative solvent accessibility from protein sequence.
+Returns predicted tendencies in JSON and sequences in FASTA format.
 
-Usage: doggo_drink [options] -i fasta -d outdir [-o prefix]
+Version: 6.0
+
+Usage: PaleAle6 -i fasta -o outdir {-2 -4 -r} [-p prefix]
 
 Arguments:
     -i, --infasta           [Required] An input file in fasta format.
