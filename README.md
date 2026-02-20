@@ -28,15 +28,17 @@ Main modifications:
 
 New or heavily modified components:  
 
-| `PaleAle6.sh`                  | main wrapper + CLI.                                         |
-| `parse_solvacc_pred.py`        | parse tendency predictions into FASTA-format sequences.     |
-| `fasta2json.py`                | convert input fasta into json.                              |
-| `emb_esm3_fasta.py`            | generate ESM-2 feature embedding.                           |
-| `RSA_*/new_test_ensemble.py`   | lower-level secondary wrapper for the predictions.          |
+| Component                      | Purpose                                                     |
+| ------------------------------ | ----------------------------------------------------------- |
+| `PaleAle6.sh`                  | Main wrapper + CLI.                                         |
+| `parse_solvacc_pred.py`        | Parse tendency predictions into FASTA-format sequences.     |
+| `fasta2json.py`                | Convert input fasta into json.                              |
+| `emb_esm3_fasta.py`            | Generate ESM-2 feature embedding.                           |
+| `RSA_*/new_test_ensemble.py`   | Lower-level secondary wrapper for the predictions.          |
 | `RSA_*/utils/ensemble.py`      | RSA prediction script.                                      |
-| `RSA_*/params/filePath.py`     | dynamic path finder.                                        |
-| `RSA_*/training`               | pre-trained models. renamed from `output`.                  |
-| `original`                     | everything from the original repository.                    |
+| `RSA_*/params/filePath.py`     | Dynamic path finder.                                        |
+| `RSA_*/training`               | Pre-trained models. renamed from `output`.                  |
+| `original`                     | Everything from the original repository.                    |
 
 ## 2. Installation  
 
@@ -61,7 +63,7 @@ PaleAle6 -i test/TIGR04045_dealn.FASTA -o solvacc -p TIGR04045 -2 -4 -r
 
 ## 3. Usage  
 
-```bash
+```
 Predicts per-residue relative solvent accessibility from protein sequence.
 Returns predicted tendencies in JSON and sequences in FASTA format.
 
