@@ -77,10 +77,11 @@ def get_idxByID(entity_id):
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--injson', required=True)
 parser.add_argument('-o', '--outdir', required=True)
-parser.add_argument('-m', '--mode', required=True)
+parser.add_argument('-m', '--mode', required=True, choices=['RSA_2C', 'RSA_4C', 'RSA_realValue'])
 parser.add_argument('-p', '--outprefix')
 args = parser.parse_args()
 
+paleale_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 injson = args.injson
 outdir = args.outdir
 injson_base = os.path.splitext(os.path.basename(injson))[0]
@@ -92,10 +93,11 @@ predmode = args.mode
 
 # HMT: Read all the paths into the paramF object defined in params/filePath.py
 path_collection = paramF(
-        injson = injson,
-        preddir = outdir,
-        outprefix = outprefix,
-        predmode = predmode
+    injson = injson,
+    preddir = outdir,
+    outprefix = outprefix,
+    predmode = predmode,
+    paleale_dir = paleale_dir
 )
 
 

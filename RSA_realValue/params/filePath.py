@@ -9,16 +9,16 @@ from params.hyperparams import *
 # of this class. This is much more adaptable than hard-coding paths into a module.
 
 class paramF:
-    def __init__(self, injson, preddir, outprefix, predmode):
+    def __init__(self, injson, preddir, outprefix, predmode, paleale_dir):
         # Allowed values for prediction mode: RSA_2C, RSA_4C, RSA_realValue
-        self.scriptdir = os.path.realpath('.')
+        self.paleale_dir = paleale_dir
         self.injson = injson
         self.preddir = preddir
         self.outprefix = outprefix
         self.predmode = predmode
 
         # Path to folder containing models for the selected prediction mode
-        self.path_predictor = os.path.join(self.scriptdir, self.predmode)
+        self.path_predictor = os.path.join(self.paleale_dir, self.predmode)
         # Path to model training output (not prediction output for actual data)
         self.path_training = os.path.join(self.path_predictor, 'training')
         self.path_models = os.path.join(self.path_training, 'trained_model')
