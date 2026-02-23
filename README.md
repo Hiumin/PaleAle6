@@ -52,14 +52,18 @@ micromamba activate PaleAle6
 pip install -r env_PaleAle6.txt
 chmod +x PaleAle6.sh
 ln -s PaleAle6.sh PaleAle6
+```
+
+Then, add the `PaleAle6` directory to `PATH`:  
+
+```bash
 export PATH=$PATH:$(pwd)
-PaleAle6 -h
 ```
 
 Verifying the installation by running it on a test sequence:  
 
 ```bash
-PaleAle6 -i test/TIGR04045_dealn.FASTA -o solvacc -p TIGR04045 -2 -4 -r 
+PaleAle6 -i test/TIGR02284_dealigned.FASTA -o solvacc -p TIGR02284 -2 -4 -r 
 ```
 
 ## 3. Usage  
