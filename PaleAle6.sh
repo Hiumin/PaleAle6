@@ -110,7 +110,7 @@ if [ $checkmode -eq 0 ]; then
 fi
 
 # Read and create file paths
-scriptdir="$(dirname "$(readlink -e "$0")")"
+paleale_dir="$(dirname "$(readlink -e "$0")")"
 # Remove the very last extension to get the basename
 infasta_base="$(basename "${infasta%.*}")"
 if [ -z "$outprefix" ]; then
@@ -141,7 +141,7 @@ mkdir -p "${outdir}/json"
 # Note: The output json file is named using the basename of the input fasta
 # i.e., without the very last extension.
 if [ $skip -eq 0 ]; then
-    python $scriptdir/fasta2json.py -i "$infasta" -o "$outdir/json"
+    python $paleale_dir/fasta2json.py -i "$infasta" -o "$outdir/json"
     if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
 fi
 
@@ -151,7 +151,7 @@ printf "\nStep 2 - Generate feature embeddings with ESM-2\n"
 mkdir -p "${outdir}"/features/{esm2,onehot,protTrans,evaluation}
 # Note: Each sequence in the input fasta gets its own embedding.
 if [ $skip -eq 0 ]; then
-    python $scriptdir/emb_esm3_fasta.py -i "$infasta" -o "$outdir/features/esm2"
+    python $paleale_dir/emb_esm3_fasta.py -i "$infasta" -o "$outdir/features/esm2"
     if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
 fi
 
@@ -164,11 +164,11 @@ if [ $rsa2c -eq 1 ]; then
     mkdir -p "$outdir/$predmode"
     
     printf "\nPrediction mode: 2-state\n"
-    python $scriptdir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
+    python $paleale_dir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
         -m "$predmode" -o "$outdir" -p "$outprefix"
     if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
 
-    python parse_solvacc_pred.py -i "$outdir/$predmode/$outprefix.json" -m "$predmode" -e "$outext_2state"
+    python $paleale_dir/parse_solvacc_pred.py -i "$outdir/$predmode/$outprefix.json" -m "$predmode" -e "$outext_2state"
     echo "2-state predictions completed in $SECONDS s for $seq_count sequences x $mean_length residues. Result:"
     echo "$outdir/$predmode/$outprefix.$outext_2state"
 fi
@@ -179,11 +179,11 @@ if [ $rsa4c -eq 1 ]; then
     mkdir -p "$outdir/$predmode"
 
     printf "\nPrediction mode: 4-state\n"
-    python $scriptdir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
+    python $paleale_dir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
         -m "$predmode" -o "$outdir" -p "$outprefix"
     if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
 
-    python parse_solvacc_pred.py -i "$outdir/$predmode/$outprefix.json" -m "$predmode" -e "$outext_4state"
+    python $paleale_dir/parse_solvacc_pred.py -i "$outdir/$predmode/$outprefix.json" -m "$predmode" -e "$outext_4state"
     echo "4-state predictions completed in $SECONDS s for $seq_count sequences x $mean_length residues. Result:"
     echo "$outdir/$predmode/$outprefix.$outext_4state"
 fi
@@ -194,7 +194,7 @@ if [ $rsarv -eq 1 ]; then
     mkdir -p "$outdir/$predmode"
 
     printf "\nPrediction mode: Real-value\n"
-    python $scriptdir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
+    python $paleale_dir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
         -m "$predmode" -o "$outdir" -p "$outprefix"
     if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
 
@@ -209,4 +209,4 @@ if [ $cleanup -eq 1 ]; then
     find "$outdir/features/"{esm2,onehot,protTrans} -name "*.npy" -delete
     find "$outdir/json" -name "*.json" -delete
 fi
-echo "All steps completed successfully!"
+echo "All steps completed."
