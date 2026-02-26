@@ -26,8 +26,8 @@ parser.add_argument('-e', '--outextension', help='Default: rsa2c (2-state), rsa4
 parser.add_argument('-v', '--verbose', action='store_true')
 args = parser.parse_args()
 default_extension = {
-    'RSA_2C' : 'rsa2c',
-    'RSA_4C' : 'rsa4c'
+    'RSA_2C' : 'rsa2',
+    'RSA_4C' : 'rsa4'
 }
 
 if args.mode is None:
