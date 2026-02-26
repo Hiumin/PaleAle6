@@ -85,9 +85,9 @@ Arguments:
     -p, --outprefix         A prefix for naming the output prediction files (tendencies and states).
                             Note: Provide only a base name, no paths.
     -2e, --outext-2state    An extension for naming the final fasta-format 2-state predictions.
-                            Note: Do not include the dot. Default: rsa2c.
+                            Note: Do not include the dot. Default: rsa2.
     -4e, --outext-4state    An extension for naming the final fasta-format 4-state predictions.
-                            Note: Do not include the dot. Default: rsa4c.
+                            Note: Do not include the dot. Default: rsa4.
 
 Options:
     -2, --rsa2c         Predict in 2 states (exposed or buried). Default: off.
