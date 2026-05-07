@@ -21,10 +21,15 @@ This repository is a fork of [PaleAle6.0][paleale6], a program for predicting re
 Main modifications:  
 
 - Implemented a wrapper script with a customizable command-line interface.  
-- Re-organized and renamed some files and directories for clarity.  
 - Implemented a dynamic path finder (as opposed to hard-coded paths).  
 - Implemented a prediction parser to convert RSA tendencies into FASTA-format sequences (for 2- and 4-state predictions).  
+- Re-organized and renamed some files and directories for clarity.  
+- Load pre-saved models safely in compliance with newer `torch` (>= 2.6). Relevant sources: [1][torch load], [2][solution p1], [3][solution p2].  
 - Output progress messages more explicitly.  
+
+[torch load]: https://docs.pytorch.org/docs/main/notes/serialization.html#weights-only-security  
+[solution p1]: https://github.com/suno-ai/bark/issues/626#issuecomment-3198148041  
+[solution p2]: https://stackoverflow.com/questions/79584485/unable-to-torch-load-due-to-pickling-safety-error  
 
 New or heavily modified components:  
 
@@ -42,28 +47,28 @@ New or heavily modified components:
 
 ## 2. Installation  
 
-Installing from source:  
+Installing from source, with `conda`/`mamba`:  
 
 ``` bash
 git clone https://github.com/Hiumin/PaleAle6.git
 cd PaleAle6
-micromamba create -n PaleAle6 -f env_PaleAle6.yml
-micromamba activate PaleAle6
-pip install -r env_PaleAle6.txt
+conda create -n PaleAle6 -f env_PaleAle6.yaml
+conda activate PaleAle6
+pip install -r env_PaleAle6.pip
 chmod +x PaleAle6.sh
 ln -s PaleAle6.sh PaleAle6
 ```
 
-Then, add the `PaleAle6` directory to `PATH`:  
-
-```bash
-export PATH=$PATH:$(pwd)
-```
-
-Verifying the installation by running it on a test sequence:  
+Verify the installation by running it on a test sequence:  
 
 ```bash
 PaleAle6 -i test/TIGR02284_dealigned.FASTA -o solvacc -p TIGR02284 -2 -4 -r 
+```
+
+To be able to call the program from anywhere, add the `PaleAle6` directory to `PATH` by adding the following line to `~/.bashrc`:  
+
+```bash
+export PATH=$PATH:$(pwd)
 ```
 
 ## 3. Usage  
@@ -85,9 +90,9 @@ Arguments:
     -p, --outprefix         A prefix for naming the output prediction files (tendencies and states).
                             Note: Provide only a base name, no paths.
     -2e, --outext-2state    An extension for naming the final fasta-format 2-state predictions.
-                            Note: Do not include the dot. Default: rsa2.
+                            Note: Do not include the dot. Default: 2sa.
     -4e, --outext-4state    An extension for naming the final fasta-format 4-state predictions.
-                            Note: Do not include the dot. Default: rsa4.
+                            Note: Do not include the dot. Default: 4sa.
 
 Options:
     -2, --rsa2c         Predict in 2 states (exposed or buried). Default: off.
@@ -98,7 +103,7 @@ Options:
                         Can be combined with other prediction modes.
     -r, --rsarv         Predict in real values. Default: off.
                         Can be combined with other prediction modes.
-    -s, --skip          Skip sequence format conversion and embedding generation (if the files already exist).
+    --skip              Skip sequence format conversion and embedding generation (if the files already exist).
     --cleanup           Remove intermediate files (JSON sequences, embeddings, etc.)
 ```
 
