@@ -1,4 +1,4 @@
-#!/usr/env/bin bash
+#!/usr/bin/env bash
 # Author: Hieu Minh Truong
 
 
