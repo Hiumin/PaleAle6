@@ -66,8 +66,8 @@ while [ $# -ge 1 ]; do
             fi
             shift; shift ;;
         -o|--outdir)
+            mkdir -p "$2"
             outdir="$(realpath "$2")"
-            mkdir -p "$outdir"
             shift; shift ;;
         -p|--outprefix)
             outprefix="$2"
