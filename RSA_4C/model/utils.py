@@ -16,6 +16,11 @@ from dataset.ss_dataset import Sequence
 import params.filePath as paramF
 import params.hyperparams as paramH
 
+torch.serialization.add_safe_globals([
+    (np._core.multiarray.scalar, 'numpy.core.multiarray.scalar'),
+    np.dtype,
+    np.dtypes.Float64DType
+])
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def trim_padding_and_flat(sequences: List[Sequence], pred):
@@ -37,7 +42,7 @@ def concat_target_and_output(sequences: List[Sequence], pred):
     all_pred = pred.cpu().detach().numpy()
     return all_target, all_pred
 
-def get_targetPred(sequences: List[Sequence], pred):    
+def get_targetPred(sequences: List[Sequence], pred):
     if paramH.padding:
         target, pred = trim_padding_and_flat(sequences, pred)
     else:
@@ -48,7 +53,7 @@ def get_targetPred(sequences: List[Sequence], pred):
 def batch_auc(target, pred):
     '''
     !!!! Cannot calculate AUC score since some sequence does not include all 9 classes.
-    
+
     Given target&pred, calculate AUC score.
     params:
         target - np.array, ground truth
@@ -111,11 +116,11 @@ def get_batch_PreTargetList(pred, target, lens):
     '''
     pre_list = []
     target_list = []
-    
+
     for p, t, l in zip(pred, target, lens):
         pre_list += p[:l].tolist()
         target_list += t[:l].tolist()
-        
+
     return pre_list, target_list
 
 # To get the loss we cut the output and target to the length of the sequence, removing the padding.
@@ -139,18 +144,20 @@ def save_checkpoint(net, optimizer, Loss, EPOCH, PATH):
                 'optimizer_state_dict': optimizer.state_dict(),
                 'loss': Loss,
                 }, PATH)
-    
+
 def load_checkpoint(net, optimizer, PATH):
     # Note: Input model & optimizer should be pre-defined.  This routine only updates their states.
     start_epoch = 0
     if os.path.isfile(PATH):
         print("=> loading checkpoint '{}'".format(PATH))
-        checkpoint = torch.load(PATH)
+        # HMT: for debugging, print out default unsafe classes and functions, then add them to the safelist
+        #print(torch.serialization.get_unsafe_globals_in_checkpoint(PATH))
+        checkpoint = torch.load(PATH, weights_only=False)
         start_epoch = checkpoint['epoch']
         net.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         losslogger = checkpoint['loss']
-        
+
         print("=> loaded checkpoint '{}' (epoch {})"
                   .format(losslogger, checkpoint['epoch']))
     else:
@@ -163,11 +170,13 @@ def load_model(net, optimizer, PATH):
     start_epoch = 0
     if os.path.isfile(PATH):
         print("=> loading checkpoint '{}'".format(PATH))
-        checkpoint = torch.load(PATH)
+        # HMT: for debugging, print out default unsafe classes and functions, then add them to the safelist
+        #print(torch.serialization.get_unsafe_globals_in_checkpoint(PATH))
+        checkpoint = torch.load(PATH, weights_only=False)
         start_epoch = checkpoint['epoch']
         net.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-        
+
         print("=> (epoch {})"
                   .format(checkpoint['epoch']))
     else:
