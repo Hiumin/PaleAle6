@@ -103,7 +103,13 @@ path_collection = paramF(
 
 """# 1. Predictors"""
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# HMT: add acceleration support for MacOS
+if torch.cuda.is_available():
+    device = 'cuda'
+elif torch.backends.mps.is_available():
+    device = 'mps'
+else:
+    device = 'cpu'
 print('Using device:', device)
 
 #esm&msa_transformer: https://github.com/facebookresearch/esm
