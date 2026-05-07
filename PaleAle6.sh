@@ -20,9 +20,9 @@ Arguments:
     -p, --outprefix         A prefix for naming the output prediction files (tendencies and states).
                             Note: Provide only a base name, no paths.
     -2e, --outext-2state    An extension for naming the final fasta-format 2-state predictions.
-                            Note: Do not include the dot. Default: rsa2.
+                            Note: Do not include the dot. Default: 2sa.
     -4e, --outext-4state    An extension for naming the final fasta-format 4-state predictions.
-                            Note: Do not include the dot. Default: rsa4.
+                            Note: Do not include the dot. Default: 4sa.
 
 Options:
     -2, --rsa2c         Predict in 2 states (exposed or buried). Default: off.
@@ -33,7 +33,7 @@ Options:
                         Can be combined with other prediction modes.
     -r, --rsarv         Predict in real values. Default: off.
                         Can be combined with other prediction modes.
-    -s, --skip          Skip sequence format conversion and embedding generation (if the files already exist).
+    --skip              Skip sequence format conversion and embedding generation (if the files already exist).
     --cleanup           Remove intermediate files (JSON sequences, embeddings, etc.)
 #EOF
     exit 1
@@ -52,8 +52,8 @@ rsa4c=0
 rsarv=0
 skip=0
 cleanup=0
-outext_2state='rsa2'
-outext_4state='rsa4'
+outext_2state='2sa'
+outext_4state='4sa'
 
 while [ $# -ge 1 ]; do
     case $1 in
@@ -84,7 +84,7 @@ while [ $# -ge 1 ]; do
             rsarv=1
             shift ;;
 
-        -s|--skip)
+        --skip)
             skip=1
             shift ;;
         --cleanup)
@@ -142,7 +142,7 @@ mkdir -p "${outdir}/json"
 # i.e., without the very last extension.
 if [ $skip -eq 0 ]; then
     python $paleale_dir/fasta2json.py -i "$infasta" -o "$outdir/json"
-    if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
+    if [ $? -ne 0 ]; then echo "PaleAle6: Something went wrong..."; exit 1; fi
 fi
 
 
@@ -152,7 +152,7 @@ mkdir -p "${outdir}"/features/{esm2,onehot,protTrans,evaluation}
 # Note: Each sequence in the input fasta gets its own embedding.
 if [ $skip -eq 0 ]; then
     python $paleale_dir/emb_esm3_fasta.py -i "$infasta" -o "$outdir/features/esm2"
-    if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
+    if [ $? -ne 0 ]; then echo "PaleAle6: Something went wrong..."; exit 1; fi
 fi
 
 
@@ -166,7 +166,7 @@ if [ $rsa2c -eq 1 ]; then
     printf "\nPrediction mode: 2-state\n"
     python $paleale_dir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
         -m "$predmode" -o "$outdir" -p "$outprefix"
-    if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
+    if [ $? -ne 0 ]; then echo "PaleAle6: Something went wrong..."; exit 1; fi
 
     python $paleale_dir/parse_solvacc_pred.py -i "$outdir/$predmode/$outprefix.json" -m "$predmode" -e "$outext_2state"
     echo "2-state predictions completed in $SECONDS s for $seq_count sequences x $mean_length residues. Result:"
@@ -181,7 +181,7 @@ if [ $rsa4c -eq 1 ]; then
     printf "\nPrediction mode: 4-state\n"
     python $paleale_dir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
         -m "$predmode" -o "$outdir" -p "$outprefix"
-    if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
+    if [ $? -ne 0 ]; then echo "PaleAle6: Something went wrong..."; exit 1; fi
 
     python $paleale_dir/parse_solvacc_pred.py -i "$outdir/$predmode/$outprefix.json" -m "$predmode" -e "$outext_4state"
     echo "4-state predictions completed in $SECONDS s for $seq_count sequences x $mean_length residues. Result:"
@@ -196,7 +196,7 @@ if [ $rsarv -eq 1 ]; then
     printf "\nPrediction mode: Real-value\n"
     python $paleale_dir/$predmode/new_test_ensemble.py -i "$outdir/json/$infasta_base.json" \
         -m "$predmode" -o "$outdir" -p "$outprefix"
-    if [ $? -ne 0 ]; then echo "Something went wrong..."; exit 1; fi
+    if [ $? -ne 0 ]; then echo "PaleAle6: Something went wrong..."; exit 1; fi
 
     echo "Real-value predictions completed in $SECONDS s for $seq_count sequences x $mean_length residues. Result:"
     echo "$outdir/$predmode/$outprefix.json"
