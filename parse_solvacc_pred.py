@@ -22,12 +22,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--injson', required=True)
 parser.add_argument('-m', '--mode', required=True, choices=['RSA_2C', 'RSA_4C'])
 parser.add_argument('-p', '--outprefix')
-parser.add_argument('-e', '--outextension', help='Default: rsa2c (2-state), rsa4c (4-state).')
+parser.add_argument('-e', '--outextension', help='Default: 2sa (2-state), 4sa (4-state).')
 parser.add_argument('-v', '--verbose', action='store_true')
 args = parser.parse_args()
 default_extension = {
-    'RSA_2C' : 'rsa2',
-    'RSA_4C' : 'rsa4'
+    'RSA_2C' : '2sa',
+    'RSA_4C' : '4sa'
 }
 
 if args.mode is None:
