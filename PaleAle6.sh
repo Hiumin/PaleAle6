@@ -58,7 +58,7 @@ outext_4state='4sa'
 while [ $# -ge 1 ]; do
     case $1 in
         -i|--infasta)
-            if [[ "$2" -e ]]; then
+            if [[ -f "$2" ]]; then
                 infasta="$(realpath "$2")"
             else
                 echo "Input file does not exist: " "$2"
