@@ -25,6 +25,7 @@ Main modifications:
 - Implemented a prediction parser to convert RSA tendencies into FASTA-format sequences (for 2- and 4-state predictions).  
 - Re-organized and renamed some files and directories for clarity.  
 - Load pre-saved models safely in compliance with newer `torch` (>= 2.6). Relevant sources: [1][torch load], [2][solution p1], [3][solution p2].  
+- Enable GPU acceleration for MacOS.  
 - Output progress messages more explicitly.  
 
 [torch load]: https://docs.pytorch.org/docs/main/notes/serialization.html#weights-only-security  
@@ -41,9 +42,9 @@ New or heavily modified components:
 | `RSA_*/params/filePath.py`     | Dynamic path finder.                                        |
 | `RSA_*/new_test_ensemble.py`   | Lower-level secondary wrapper for the predictions.          |
 | `RSA_*/utils/ensemble.py`      | RSA prediction script.                                      |
-| `RSA_*/training`               | Pre-trained models. Renamed dir from `output`.              |
+| `RSA_*/training`               | Pre-trained models. Previously named `output`.              |
 | `parse_solvacc_pred.py`        | Parse tendency predictions into FASTA-format sequences.     |
-| `original`                     | Everything from the original repository.                    |
+| `archive`                      | Everything from the original repository.                    |
 
 ## 2. Installation  
 
