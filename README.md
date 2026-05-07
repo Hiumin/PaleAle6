@@ -53,7 +53,7 @@ Installing from source, with `conda`/`mamba`:
 ``` bash
 git clone https://github.com/Hiumin/PaleAle6.git
 cd PaleAle6
-conda create -n PaleAle6 -f env_PaleAle6.yaml
+conda create --file env_PaleAle6.yaml
 conda activate PaleAle6
 pip install -r env_PaleAle6.pip
 chmod +x PaleAle6.sh
