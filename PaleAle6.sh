@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/env/bin bash
 # Author: Hieu Minh Truong
 
 
 showhelp () {
-    cat <<- '#EOF'
+    cat << '#EOF'
 Predicts per-residue relative solvent accessibility from protein sequences.
 Returns predicted tendencies in JSON and sequences in FASTA format.
 
