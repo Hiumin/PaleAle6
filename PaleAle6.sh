@@ -58,10 +58,15 @@ outext_4state='4sa'
 while [ $# -ge 1 ]; do
     case $1 in
         -i|--infasta)
-            infasta="$(readlink -e "$2")"
+            if [[ "$2" -e ]]; then
+                infasta="$(realpath "$2")"
+            else
+                echo "Input file does not exist: " "$2"
+                exit 1
+            fi
             shift; shift ;;
         -o|--outdir)
-            outdir="$(readlink -m "$2")"
+            outdir="$(realpath "$2")"
             mkdir -p "$outdir"
             shift; shift ;;
         -p|--outprefix)
